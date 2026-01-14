@@ -26,4 +26,26 @@ def validate_password(password: str) -> bool:
     bool
         True if the password is valid, and false otherwise
     """
-    pass
+    count = 0
+    
+    foundUpper = False
+    foundLower = False
+    foundDigit = False
+    foundSpecial = False
+    
+    Digit = ['1','2','3','4','5','6','7','8','9','0']
+    Special = ['!','@','#','$','%','^','&','*']
+
+    for x in password:
+        count += 1
+        if x.islower():
+            foundLower = True
+        if x.isupper():
+            foundUpper = True
+        if x in Digit:
+            foundDigit = True 
+        if x in Special:
+            foundSpecial = True
+    if count >= 8:
+        return True
+    return False
