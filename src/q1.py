@@ -26,26 +26,47 @@ def validate_password(password: str) -> bool:
     bool
         True if the password is valid, and false otherwise
     """
-    count = 0
+    is_valid = True
     
-    foundUpper = False
-    foundLower = False
-    foundDigit = False
-    foundSpecial = False
+    if len(password) < 8:
+        print("Password must be at least 8 characters long")
+        is_valid = False
     
-    Digit = ['1','2','3','4','5','6','7','8','9','0']
-    Special = ['!','@','#','$','%','^','&','*']
-
-    for x in password:
-        count += 1
-        if x.islower():
-            foundLower = True
-        if x.isupper():
-            foundUpper = True
-        if x in Digit:
-            foundDigit = True 
-        if x in Special:
-            foundSpecial = True
-    if count >= 8:
-        return True
-    return False
+    found_upper = False
+    for c in password:
+        if c.isupper():
+            found_upper = True
+            break
+    if not found_upper:
+        print("Password must contain at least one uppercase letter")
+        is_valid = False
+    
+    found_lower = False
+    for c in password:
+        if c.islower():
+            found_lower = True
+            break
+    if not found_lower:
+        print("Password must contain at least one lowercase letter")
+        is_valid = False
+    
+    found_digit = False
+    for c in password:
+        if c.isdigit():
+            found_digit = True
+            break
+    if not found_digit:
+        print("Password must contain at least one digit")
+        is_valid = False
+    
+    special_chars = '!@#$%^&*'
+    found_special = False
+    for c in password:
+        if c in special_chars:
+            found_special = True
+            break
+    if not found_special:
+        print("Password must contain at least one special character (!@#$%^&*)")
+        is_valid = False
+    
+    return is_valid

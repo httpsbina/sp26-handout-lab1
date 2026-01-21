@@ -6,23 +6,53 @@ import unittest
 from unittest.mock import patch, Mock
 from src.q1 import validate_password
 
-def testvaildate_password_under8characters(self):
-    self.assert(laufey)
+class TestValidatePassword(unittest.TestCase):
+    
+    def test_validate_password_under8characters(self):
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            result = validate_password("laufey")
+            self.assertFalse(result)
+            self.assertIn("at least 8 characters", fake_out.getvalue())
+    
+    def test_validate_password_noupper(self):
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            result = validate_password("laufey@2026!")
+            self.assertFalse(result)
+            self.assertIn("uppercase letter", fake_out.getvalue())
+    
+    def test_validate_password_nolower(self):
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            result = validate_password("LAUFEY@2026!")
+            self.assertFalse(result)
+            self.assertIn("lowercase letter", fake_out.getvalue())
+    
+    def test_validate_password_nodigit(self):
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            result = validate_password("Laufey@twentysix!")
+            self.assertFalse(result)
+            self.assertIn("digit", fake_out.getvalue())
+    
+    def test_validate_password_nospecial(self):
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            result = validate_password("Laufey2026")
+            self.assertFalse(result)
+            self.assertIn("special character", fake_out.getvalue())
+    
+    def test_validate_password_nothing(self):
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            result = validate_password("")
+            self.assertFalse(result)
+            # Should print multiple error messages
+            output = fake_out.getvalue()
+            self.assertIn("at least 8 characters", output)
+    
+    def test_validate_password_correct(self):
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            result = validate_password("Laufey@2026!")
+            self.assertTrue(result)
+            # Should print nothing for a valid password
+            self.assertEqual(fake_out.getvalue(), "")
 
-def testvaildate_password_noupper(self):
-    self.assert(laufey@2026!)
 
-def testvaildate_password_nolower(self):
-    self.assert(LAUFEY@2026!)
-
-def testvaildate_password_nodigit(self):
-    self.assert(Laufey@twentysix!)
-
-def testvaildate_password_nospecial(self):
-    self.assert(Laufey2026)
-
-def testvaildate_password_nothing(self):
-    self.assert()
-
-def testvaildate_password_correct(self):
-    self.assert(Lafuey@2026!)
+if __name__ == '__main__':
+    unittest.main()
