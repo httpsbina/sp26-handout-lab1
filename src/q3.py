@@ -168,7 +168,7 @@ def calculate_income_tax() -> None:
     1. Ask the user to input their state (CA for California, MA for Massachusetts, NY for New York)
     2. Ask the user to input an annual income
     3. Print a sentence formatted like this: "Your income is XX before tax and XX after tax. You pay XX income tax."
-    4. Handle invalid unit inputs gracefully
+    4. Handle invalid unit inputs gracefully with the error message "Invalid state. Please enter CA, MA, or NY."
     """
     # Ask for state
     state = input("Please enter your state (CA, MA, or NY): ").strip().upper()
